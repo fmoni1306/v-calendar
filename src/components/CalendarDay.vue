@@ -21,7 +21,7 @@ export default {
             'div',
             {
               key,
-              class: wrapperClass,
+              class: [wrapperClass, 'vc-day-box-align-baseline'],
             },
             [
               h('div', {
@@ -60,7 +60,7 @@ export default {
       h(
         'div',
         {
-          class: 'vc-day-layer vc-day-box-center-bottom',
+          class: 'vc-day-layer vc-day-box-center-bottom vc-day-box-align-baseline vc-dots-justify',
         },
         [
           h(
@@ -103,7 +103,28 @@ export default {
           ),
         ],
       );
-
+    const customLabelsLayer = () =>
+      this.hasCustomLabels &&
+      h(
+        'div',
+        {
+          class: 'vc-day-layer vc-day-box-center-bottom',
+        },
+        [
+          h(
+            'div',
+            {
+              class: 'vc-customLabels',
+            },
+            this.customLabels.map(({ key, class: bgClass, customData }) =>
+              h('span', {
+                key,
+                class: bgClass,
+              }, [customData]),
+            ),
+          ),
+        ],
+      );
     // Root layer
     return h(
       'div',
@@ -113,9 +134,10 @@ export default {
           ...this.day.classes,
           { 'vc-day-box-center-center': !this.$scopedSlots['day-content'] },
           { 'is-not-in-month': !this.inMonth },
+          'vc-day-box-align-baseline'
         ],
       },
-      [backgroundsLayer(), contentLayer(), dotsLayer(), barsLayer()],
+      [backgroundsLayer(), contentLayer(), dotsLayer(), barsLayer(), customLabelsLayer()],
     );
   },
   inject: ['sharedState'],
@@ -164,6 +186,12 @@ export default {
     },
     hasBars() {
       return !!arrayHasItems(this.bars);
+    },
+    customLabels() {
+      return this.glyphs.customLabels;
+    },
+    hasCustomLabels() {
+      return !!arrayHasItems(this.customLabels);
     },
     popovers() {
       return this.glyphs.popovers;
@@ -246,6 +274,7 @@ export default {
         backgrounds: [],
         dots: [],
         bars: [],
+        customLabels: [],
         popovers: [],
         content: [],
       };
@@ -260,7 +289,7 @@ export default {
       this.day.attributes.forEach(attr => {
         // Add glyphs for each attribute
         const { targetDate } = attr;
-        const { isDate, isComplex, startTime, endTime } = targetDate;
+        const { isDate, isComplex, startTime, endTime, customLabel } = targetDate;
         const onStart = this.startTime <= startTime;
         const onEnd = this.endTime >= endTime;
         const onStartAndEnd = onStart && onEnd;
@@ -272,11 +301,13 @@ export default {
           onEnd,
           onStartAndEnd,
           onStartOrEnd,
+          customLabel,
         };
         this.processHighlight(attr, dateInfo, glyphs);
         this.processNonHighlight(attr, 'content', dateInfo, glyphs.content);
         this.processNonHighlight(attr, 'dot', dateInfo, glyphs.dots);
         this.processNonHighlight(attr, 'bar', dateInfo, glyphs.bars);
+        this.processCustomLabel(attr, 'customLabel', dateInfo, glyphs.customLabels);
         this.processPopover(attr, glyphs);
       });
       this.glyphs = glyphs;
@@ -387,6 +418,29 @@ export default {
         });
       }
     },
+    processCustomLabel(attr, itemKey, { isDate, onStart, onEnd, customLabel }, list) {
+      const { key } = attr;
+      const className = `vc-${itemKey}`;
+      if (isDate || onStart) {
+        list.push({
+          key,
+          class: [className],
+          customData: customLabel
+        });
+      } else if (onEnd) {
+        list.push({
+          key,
+          class: [className],
+          customData: customLabel
+        });
+      } else {
+        list.push({
+          key,
+          class: [className],
+          customData: customLabel
+        });
+      }
+    },
     processPopover(attribute, { popovers }) {
       const { key, customData, popover } = attribute;
       if (!popover) return;
@@ -435,12 +489,12 @@ export default {
 <style lang="postcss" scoped>
 .vc-day {
   position: relative;
-  min-height: 32px;
+  min-height: 44px;
   z-index: 1;
-  &.is-not-in-month * {
-    opacity: 0;
-    pointer-events: none;
-  }
+&.is-not-in-month * {
+   opacity: 0;
+   pointer-events: none;
+ }
 }
 
 .vc-day-layer {
@@ -491,30 +545,30 @@ export default {
   border-radius: var(--rounded-full);
   user-select: none;
   cursor: pointer;
-  &:hover {
-    background-color: hsla(211, 25%, 84%, 0.3);
-  }
-  &:focus {
-    font-weight: var(--font-bold);
-    background-color: hsla(211, 25%, 84%, 0.4);
-  }
-  &.is-disabled {
-    color: var(--gray-400);
-  }
+&:hover {
+   background-color: hsla(211, 25%, 84%, 0.3);
+ }
+&:focus {
+   font-weight: var(--font-bold);
+   background-color: hsla(211, 25%, 84%, 0.4);
+ }
+&.is-disabled {
+   color: var(--gray-400);
+ }
 }
 
 .vc-is-dark {
-  & .vc-day-content {
-    &:hover {
-      background-color: hsla(216, 15%, 52%, 0.3);
-    }
-    &:focus {
-      background-color: hsla(216, 15%, 52%, 0.4);
-    }
-    &.is-disabled {
-      color: var(--gray-600);
-    }
-  }
+& .vc-day-content {
+&:hover {
+   background-color: hsla(216, 15%, 52%, 0.3);
+ }
+&:focus {
+   background-color: hsla(216, 15%, 52%, 0.4);
+ }
+&.is-disabled {
+   color: var(--gray-600);
+ }
+}
 }
 
 .vc-highlights {
@@ -526,29 +580,30 @@ export default {
 .vc-highlight {
   width: 28px;
   height: 28px;
-  &.vc-highlight-base-start {
-    width: 50% !important;
-    border-radius: 0 !important;
-    border-right-width: 0 !important;
-  }
-  &.vc-highlight-base-end {
-    width: 50% !important;
-    border-radius: 0 !important;
-    border-left-width: 0 !important;
-  }
-  &.vc-highlight-base-middle {
-    width: 100%;
-    border-radius: 0 !important;
-    border-left-width: 0 !important;
-    border-right-width: 0 !important;
-    margin: 0 -1px;
-  }
+&.vc-highlight-base-start {
+   width: 50% !important;
+   border-radius: 0 !important;
+   border-right-width: 0 !important;
+ }
+&.vc-highlight-base-end {
+   width: 50% !important;
+   border-radius: 0 !important;
+   border-left-width: 0 !important;
+ }
+&.vc-highlight-base-middle {
+   width: 100%;
+   border-radius: 0 !important;
+   border-left-width: 0 !important;
+   border-right-width: 0 !important;
+   margin: 0 -1px;
+ }
 }
 
 .vc-dots {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-right: 3px;
 }
 
 .vc-dot {
@@ -556,9 +611,10 @@ export default {
   height: 5px;
   border-radius: 50%;
   transition: all var(--day-content-transition-time);
-  &:not(:last-child) {
-    margin-right: 3px;
-  }
+  margin-left: 1px;
+&:not(:last-child) {
+   margin-right: 3px;
+ }
 }
 
 .vc-bars {
@@ -572,5 +628,18 @@ export default {
   flex-grow: 1;
   height: 3px;
   transition: all var(--day-content-transition-time);
+}
+
+.vc-customLabels {
+  font-size: 10px;
+  font-weight: var(--font-normal);
+}
+
+.vc-day-box-align-baseline {
+  align-items: baseline !important;
+}
+
+.vc-dots-justify {
+  justify-content: flex-end !important;
 }
 </style>

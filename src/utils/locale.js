@@ -501,12 +501,12 @@ export default class Locale {
     return date;
   }
 
-  normalizeDates(dates, opts) {
+  normalizeDates(dates, opts, customLabels) {
     opts = opts || {};
     opts.locale = this;
     // Assign dates
     return (isArray(dates) ? dates : [dates])
-      .map(d => d && (d instanceof DateInfo ? d : new DateInfo(d, opts)))
+      .map(d => d && (d instanceof DateInfo ? d : new DateInfo(d, opts, customLabels)))
       .filter(d => d);
   }
 
