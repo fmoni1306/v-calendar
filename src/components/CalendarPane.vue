@@ -238,9 +238,9 @@ export default {
 }
 
 .vc-title {
-  font-size: var(--text-lg);
-  color: var(--gray-800);
-  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+  color: #1A1919;
+  font-weight: var(--font-medium);
   line-height: 28px;
   cursor: pointer;
   user-select: none;
@@ -297,9 +297,9 @@ export default {
 
 .vc-weekday {
   text-align: center;
-  color: var(--gray-500);
+  color: #1A1919;
   font-size: var(--text-sm);
-  font-weight: var(--font-bold);
+  font-weight: var(--font-medium);
   line-height: 14px;
   padding-top: 4px;
   padding-bottom: 8px;

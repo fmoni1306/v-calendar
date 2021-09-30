@@ -842,11 +842,12 @@ export default {
   cursor: pointer;
   user-select: none;
   pointer-events: auto;
-  color: var(--gray-600);
+  color: #B3B3B3;
   border-width: 2px;
   border-style: solid;
   border-radius: var(--rounded);
   border-color: transparent;
+  font-weight: var(--font-medium);
   &:hover {
     background: var(--gray-200);
   }

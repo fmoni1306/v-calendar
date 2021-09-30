@@ -603,7 +603,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-right: 3px;
+  padding-right: 13px;
 }
 
 .vc-dot {
