@@ -603,9 +603,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-right: 13px;
+  padding-right: calc((100% - 28px) / 2);
 }
-
 .vc-dot {
   width: 5px;
   height: 5px;
