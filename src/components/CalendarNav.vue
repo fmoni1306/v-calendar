@@ -348,7 +348,7 @@ export default {
   }
   &.is-active {
     color: var(--vimeal-primary);
-    background: var(--white);
+    background: var(--vimeal-primary);
     font-weight: var(--font-bold);
     box-shadow: var(--shadow);
   }
@@ -358,12 +358,14 @@ export default {
     border-color: var(--accent-100);
   }
   &:focus {
-    /*border-color: var(--accent-600);*/ /* 매해 첫달 테두리 속성*/
+     /* 매해 첫달 테두리 속성*/
+     /*border-color: var(--accent-600);*/
   }
   &.is-disabled {
     opacity: 0.25;
     pointer-events: none;
   }
+
 }
 
 .vc-is-dark {
