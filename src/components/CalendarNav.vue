@@ -314,11 +314,13 @@ export default {
   border-style: solid;
   border-color: transparent;
   user-select: none;
+  color: var(--white);
   &:hover {
-    background-color: var(--gray-900);
+   color: var(--vimeal-primary);
+   background-color: var(--white);
   }
   &:focus {
-    border-color: var(--accent-600);
+    border-color: var(--vimeal-primary);
   }
 }
 
@@ -342,13 +344,13 @@ export default {
   border-radius: var(--rounded);
   user-select: none;
   &:hover {
-    color: var(--white);
-    background-color: var(--gray-900);
-    box-shadow: var(--shadow-inner);
+    color: var(--vimeal-primary);
+    background-color: var(--white);
+    /*box-shadow: var(--shadow-inner);*/
   }
   &.is-active {
     color: var(--vimeal-primary);
-    background: var(--vimeal-primary);
+    background: var(--white);
     font-weight: var(--font-bold);
     box-shadow: var(--shadow);
   }
