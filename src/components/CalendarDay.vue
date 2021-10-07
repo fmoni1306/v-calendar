@@ -546,11 +546,12 @@ export default {
   user-select: none;
   cursor: pointer;
 &:hover {
-   background-color: hsla(211, 25%, 84%, 0.3);
+   /*background-color: hsla(211, 25%, 84%, 0.3);*/
  }
 &:focus {
    font-weight: var(--font-bold);
-   background-color: hsla(211, 25%, 84%, 0.4);
+   text-decoration-line: underline;
+   /*background-color: hsla(211, 25%, 84%, 0.4);*/
  }
 &.is-disabled {
    color: var(--gray-400);
