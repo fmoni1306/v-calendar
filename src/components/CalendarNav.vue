@@ -347,8 +347,8 @@ export default {
     box-shadow: var(--shadow-inner);
   }
   &.is-active {
-    color: var(--accent-900);
-    background: var(--accent-100);
+    color: var(--vimeal-primary);
+    background: var(--white);
     font-weight: var(--font-bold);
     box-shadow: var(--shadow);
   }
@@ -358,7 +358,7 @@ export default {
     border-color: var(--accent-100);
   }
   &:focus {
-    border-color: var(--accent-600);
+    /*border-color: var(--accent-600);*/ /* 매해 첫달 테두리 속성*/
   }
   &.is-disabled {
     opacity: 0.25;

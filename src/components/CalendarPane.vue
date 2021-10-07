@@ -325,9 +325,9 @@ export default {
   color: var(--white);
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
-  background-color: var(--gray-800);
+  background-color: var(--vimeal-primary);
   border: 1px solid;
-  border-color: var(--gray-700);
+  border-color: var(--vimeal-primary);
   border-radius: var(--rounded-lg);
   padding: 4px;
   box-shadow: var(--shadow);
